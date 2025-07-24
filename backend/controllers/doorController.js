@@ -1,17 +1,19 @@
 const db = require("../config/db");
 
 // Ambil semua log aktivitas
-exports.getLogActivity = (req, res) => {
+exports.getLogActivity = async (req, res) => {
   const sql = `SELECT kartu_id, pengguna, created_at FROM log_aktivitas ORDER BY created_at DESC`;
 
-  db.query(sql, (err, result) => {
-    if (err)
-      return res
-        .status(500)
-        .json({ message: "Gagal mengambil data log", error: err });
-
-    res.status(200).json(result);
-  });
+  try {
+    const [rows] = await db.execute(sql);
+    res.status(200).json(rows);
+  } catch (err) {
+    console.error("Error mengambil data log:", err);
+    res.status(500).json({
+      message: "Gagal mengambil data log",
+      error: err.message,
+    });
+  }
 };
 
 // Ambil history berdasarkan rentang tanggal

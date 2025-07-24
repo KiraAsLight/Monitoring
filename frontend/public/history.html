@@ -55,6 +55,45 @@
         ⌚ Riwayat Akses
       </h2>
 
+      <!-- FORM FILTER (OPSIONAL) -->
+      <form id="filterForm" class="mb-6 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+        <div class="flex flex-wrap items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label for="startDate" class="text-sm font-medium text-gray-700">Dari:</label>
+            <input
+              type="date"
+              id="startDate"
+              name="startDate"
+              class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <span class="text-gray-500 text-sm">s/d</span>
+          <div class="flex items-center gap-2">
+            <label for="endDate" class="text-sm font-medium text-gray-700">Sampai:</label>
+            <input
+              type="date"
+              id="endDate"
+              name="endDate"
+              class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <button
+            type="submit"
+            id="searchBtn"
+            class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-1.5 rounded-lg font-medium transition shadow-sm hover:shadow"
+          >
+            🔍 Filter
+          </button>
+          <button
+            type="button"
+            id="resetBtn"
+            class="bg-gray-600 hover:bg-gray-700 text-white text-sm px-5 py-1.5 rounded-lg font-medium transition shadow-sm hover:shadow"
+          >
+            🔄 Reset
+          </button>
+        </div>
+      </form>
+
       <!-- TABLE -->
       <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <table class="w-full text-left border-collapse">
