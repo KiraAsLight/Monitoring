@@ -35,3 +35,32 @@ exports.getHistory = async (req, res) => {
     res.status(500).json({ error: "Gagal ambil data history" });
   }
 };
+
+// Ambil Status Terakhir
+exports.getDoorStatus = async (req, res) => {
+  try {
+    // 1. Ambil data terbaru
+    const [latestRows] = await pool.query(
+      "SELECT status_pintu, created_at FROM log_aktivitas ORDER BY created_at DESC LIMIT 1"
+    );
+
+    // 2. Hitung total akses hari ini
+    const [totalRows] = await pool.query(
+      `SELECT COUNT(*) AS total FROM log_aktivitas 
+       WHERE DATE(created_at) = CURDATE()`
+    );
+
+    const status_pintu = latestRows[0]?.status_pintu || "Tidak Diketahui";
+    const waktu_akses = latestRows[0]?.created_at || null;
+    const total_akses = totalRows[0]?.total || 0;
+
+    res.json({
+      status_pintu,
+      waktu_akses,
+      total_akses,
+    });
+  } catch (error) {
+    console.error("Gagal ambil status pintu:", error);
+    res.status(500).json({ error: "Gagal ambil data status pintu" });
+  }
+};

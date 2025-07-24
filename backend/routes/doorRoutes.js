@@ -8,6 +8,7 @@ router.get("/log-aktivitas", doorController.getLogActivity);
 // Route History (pakai rentang waktu)
 router.get("/history", doorController.getHistory);
 
-//router.get("/status", doorController.getLastDoorStatus);
+// Route Status Pintu
+router.get("/status", doorController.getDoorStatus);
 
 module.exports = router;

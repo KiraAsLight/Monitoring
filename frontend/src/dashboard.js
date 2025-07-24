@@ -14,7 +14,9 @@ function fetchDoorStatus() {
     .then((data) => {
       const statusPintuEl = document.getElementById("statusPintu");
       const waktuEl = document.getElementById("doorTime");
+      const aksesHariIniEl = document.getElementById("aksesHariIni");
 
+      // Format waktu
       if (data.status_pintu && data.waktu_akses) {
         const waktu = new Date(data.waktu_akses);
         const waktuFormatted = waktu.toLocaleString("id-ID", {
@@ -28,12 +30,13 @@ function fetchDoorStatus() {
         statusPintuEl.textContent = "Tidak Diketahui";
         waktuEl.textContent = "---";
       }
+
+      aksesHariIniEl.textContent = data.total_akses_hari_ini || 0;
     })
     .catch((error) => {
       console.error("Gagal ambil status pintu:", error);
       document.getElementById("statusPintu").textContent = "Error";
       document.getElementById("doorTime").textContent = "Gagal ambil data";
+      document.getElementById("aksesHariIni").textContent = "Error";
     });
 }
-
-// setInterval(fetchDoorStatus, 5000);
