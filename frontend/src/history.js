@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     data.forEach((history, index) => {
+      // Format waktu
       const createdAt = new Date(history.created_at);
       const tanggal = createdAt.toLocaleDateString("id-ID", {
         day: "2-digit",
@@ -44,23 +45,36 @@ document.addEventListener("DOMContentLoaded", () => {
         second: "2-digit",
       });
 
-      // Tentukan keterangan berdasarkan data (bisa disesuaikan dengan kebutuhan)
-      const keterangan = "Akses Berhasil"; // Default, bisa dinamis berdasarkan data
+      // Ambil keterangan dari database
+      const keterangan = history.keterangan || "Akses Tidak Diketahui";
+
+      // Gunakan field `status` untuk badge (lebih akurat)
+      const status = history.status?.toLowerCase() || "pending";
+
+      // Tentukan warna badge berdasarkan `status` (enum)
+      let badgeClass = "bg-gray-100 text-gray-800"; // default
+      if (status === "berhasil" || status === "success") {
+        badgeClass = "bg-green-100 text-green-800";
+      } else if (status === "gagal" || status === "failed") {
+        badgeClass = "bg-red-100 text-red-800";
+      } else if (status === "pending") {
+        badgeClass = "bg-yellow-100 text-yellow-800";
+      }
 
       const row = `
-        <tr class="hover:bg-gray-50">
-          <td class="p-4 text-center">${index + 1}</td>
-          <td class="p-4">${history.kartu_id}</td>
-          <td class="p-4">${history.pengguna}</td>
-          <td class="p-4">${tanggal}</td>
-          <td class="p-4">${jam}</td>
-          <td class="p-4">
-            <span class="inline-block px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
-              ${keterangan}
-            </span>
-          </td>
-        </tr>
-      `;
+      <tr class="hover:bg-gray-50">
+        <td class="p-4 text-center">${index + 1}</td>
+        <td class="p-4">${history.kartu_id || "N/A"}</td>
+        <td class="p-4">${history.pengguna || "N/A"}</td>
+        <td class="p-4">${tanggal}</td>
+        <td class="p-4">${jam}</td>
+        <td class="p-4">
+          <span class="inline-block px-2 py-1 text-xs font-medium ${badgeClass} rounded-full">
+            ${keterangan}
+          </span>
+        </td>
+      </tr>
+    `;
       historyTableBody.insertAdjacentHTML("beforeend", row);
     });
   }

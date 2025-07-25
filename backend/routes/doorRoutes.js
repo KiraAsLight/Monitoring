@@ -9,6 +9,6 @@ router.get("/log-aktivitas", doorController.getLogActivity);
 router.get("/history", doorController.getHistory);
 
 // Route Status Pintu
-router.get("/status", doorController.getDoorStatus);
+// router.get("/status", doorController.getDoorStatus);
 
 module.exports = router;
